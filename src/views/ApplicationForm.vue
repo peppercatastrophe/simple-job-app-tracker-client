@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1>{{ isEdit ? 'Edit Application' : 'New Application' }}</h1>
-    <p class="subtitle">{{ isEdit ? 'Update the details below.' : 'Fill in the details of the job you applied for.' }}</p>
+    <h1 class="h3 mb-1">{{ isEdit ? 'Edit Application' : 'New Application' }}</h1>
+    <p class="text-muted small mb-4">{{ isEdit ? 'Update the details below.' : 'Fill in the details of the job you applied for.' }}</p>
     <AppForm
       :initial="existing"
       :submit-label="isEdit ? 'Update' : 'Create'"
@@ -39,17 +39,3 @@ async function onSubmit(payload) {
   router.push('/')
 }
 </script>
-
-<style scoped>
-h1 {
-  margin: 0 0 4px;
-  font-size: 24px;
-  color: var(--color-text-primary);
-}
-
-.subtitle {
-  color: var(--color-text-muted);
-  font-size: 14px;
-  margin: 0 0 24px;
-}
-</style>

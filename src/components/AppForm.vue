@@ -1,23 +1,23 @@
 <template>
-  <form @submit.prevent="onSubmit" class="app-form">
-    <div class="form-group">
-      <label for="title">Title *</label>
-      <input id="title" v-model="form.title" type="text" required placeholder="e.g. Senior Frontend Engineer" />
+  <form @submit.prevent="onSubmit" class="mw-600">
+    <div class="mb-3">
+      <label for="title" class="form-label">Title *</label>
+      <input id="title" v-model="form.title" type="text" class="form-control" required placeholder="e.g. Senior Frontend Engineer" />
     </div>
 
-    <div class="form-group">
-      <label for="company">Company *</label>
-      <input id="company" v-model="form.company" type="text" required placeholder="e.g. Acme Corp" />
+    <div class="mb-3">
+      <label for="company" class="form-label">Company *</label>
+      <input id="company" v-model="form.company" type="text" class="form-control" required placeholder="e.g. Acme Corp" />
     </div>
 
-    <div class="form-row">
-      <div class="form-group">
-        <label for="category">Category</label>
-        <input id="category" v-model="form.category" type="text" placeholder="e.g. Engineering" />
+    <div class="row">
+      <div class="col-md-6 mb-3">
+        <label for="category" class="form-label">Category</label>
+        <input id="category" v-model="form.category" type="text" class="form-control" placeholder="e.g. Engineering" />
       </div>
-      <div class="form-group">
-        <label for="status">Status</label>
-        <select id="status" v-model="form.status">
+      <div class="col-md-6 mb-3">
+        <label for="status" class="form-label">Status</label>
+        <select id="status" v-model="form.status" class="form-select">
           <option value="applied">Applied</option>
           <option value="screening">Screening</option>
           <option value="interview">Interview</option>
@@ -29,34 +29,38 @@
       </div>
     </div>
 
-    <div class="form-group">
-      <label for="apply_date">Apply Date</label>
-      <input id="apply_date" v-model="applyDate" type="date" />
+    <div class="mb-3">
+      <label for="apply_date" class="form-label">Apply Date</label>
+      <input id="apply_date" v-model="applyDate" type="date" class="form-control" />
     </div>
 
-    <div class="form-group">
-      <label for="description">Description</label>
-      <textarea id="description" v-model="form.description" rows="3" placeholder="Job description, notes..."></textarea>
+    <div class="mb-3">
+      <label for="description" class="form-label">Description</label>
+      <textarea id="description" v-model="form.description" class="form-control" rows="3" placeholder="Job description, notes..."></textarea>
     </div>
 
-    <div class="form-group">
-      <label>Tech Stack</label>
-      <div class="tech-input-row">
-        <input v-model="newTech" type="text" placeholder="Add a technology" @keydown.enter.prevent="addTech" />
-        <button type="button" class="btn btn-secondary" @click="addTech">Add</button>
+    <div class="mb-3">
+      <label class="form-label">Tech Stack</label>
+      <div class="input-group mb-2">
+        <input v-model="newTech" type="text" class="form-control" placeholder="Add a technology" @keydown.enter.prevent="addTech" />
+        <button type="button" class="btn btn-outline-secondary" @click="addTech">Add</button>
       </div>
-      <div v-if="form.tech_stack?.length" class="tech-list">
-        <span v-for="(tech, i) in form.tech_stack" :key="i" class="tech-item">
+      <div v-if="form.tech_stack?.length" class="d-flex flex-wrap gap-2">
+        <span
+          v-for="(tech, i) in form.tech_stack"
+          :key="i"
+          class="badge text-bg-light border d-inline-flex align-items-center gap-1"
+        >
           {{ tech }}
-          <button type="button" class="tech-remove" @click="removeTech(i)">&times;</button>
+          <button type="button" class="btn-close" style="font-size: 0.6rem;" aria-label="Remove" @click="removeTech(i)"></button>
         </span>
       </div>
     </div>
 
-    <div v-if="error" class="error-msg">{{ error }}</div>
+    <div v-if="error" class="alert alert-danger py-2">{{ error }}</div>
 
-    <div class="form-actions">
-      <router-link :to="cancelPath" class="btn btn-ghost">Cancel</router-link>
+    <div class="d-flex gap-2 justify-content-end mt-4">
+      <router-link :to="cancelPath" class="btn btn-link text-secondary">Cancel</router-link>
       <button type="submit" class="btn btn-primary" :disabled="submitting">
         {{ submitting ? 'Saving...' : submitLabel }}
       </button>
@@ -65,7 +69,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, computed, watch } from 'vue'
+import { reactive, ref, watch } from 'vue'
 
 const props = defineProps({
   initial: { type: Object, default: null },
@@ -135,107 +139,3 @@ async function onSubmit() {
   }
 }
 </script>
-
-<style scoped>
-.app-form {
-  max-width: 600px;
-}
-
-.form-group {
-  margin-bottom: 16px;
-}
-
-label {
-  display: block;
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--color-text-primary);
-  margin-bottom: 4px;
-}
-
-input,
-select,
-textarea {
-  width: 100%;
-  padding: 8px 12px;
-  border: 1px solid var(--color-input-border);
-  border-radius: 6px;
-  font-size: 14px;
-  color: var(--color-text-primary);
-  background: var(--color-input-bg);
-  box-sizing: border-box;
-  transition: background 0.2s, border-color 0.2s, color 0.2s;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-  outline: none;
-  border-color: var(--color-primary);
-  box-shadow: 0 0 0 3px var(--color-focus-ring);
-}
-
-.form-row {
-  display: flex;
-  gap: 16px;
-}
-
-.form-row .form-group {
-  flex: 1;
-}
-
-.tech-input-row {
-  display: flex;
-  gap: 8px;
-}
-
-.tech-input-row input {
-  flex: 1;
-}
-
-.tech-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-  margin-top: 8px;
-}
-
-.tech-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  padding: 2px 10px;
-  background: var(--color-tag-bg);
-  border: 1px solid var(--color-border);
-  border-radius: 4px;
-  font-size: 13px;
-  color: var(--color-text-secondary);
-}
-
-.tech-remove {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 16px;
-  line-height: 1;
-  color: var(--color-text-muted);
-  padding: 0;
-}
-
-.tech-remove:hover {
-  color: var(--color-danger);
-}
-
-.form-actions {
-  display: flex;
-  gap: 8px;
-  justify-content: flex-end;
-  margin-top: 24px;
-}
-
-.error-msg {
-  color: var(--color-danger);
-  font-size: 14px;
-  margin-bottom: 12px;
-}
-</style>

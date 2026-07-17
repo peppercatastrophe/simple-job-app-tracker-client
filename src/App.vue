@@ -1,7 +1,7 @@
 <template>
-  <div id="app-root">
+  <div id="app-root" class="min-vh-100">
     <NavBar v-if="isAuthenticated" />
-    <main :class="{ 'with-nav': isAuthenticated }">
+    <main class="container py-4">
       <router-view />
     </main>
   </div>
@@ -21,21 +21,3 @@ onMounted(() => {
   fetchMe()
 })
 </script>
-
-<style scoped>
-#app-root {
-  min-height: 100vh;
-  background: var(--color-bg);
-  transition: background 0.2s;
-}
-
-main {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 32px 24px;
-}
-
-main.with-nav {
-  padding-top: 24px;
-}
-</style>
